@@ -21,17 +21,12 @@ const deleteTuit = async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedTuit = await Tuit.findByIdAndDelete(id);
-    if (deletedTuit) {
+    if (deletedTuit)
       res.json(`Tuit with id ${deletedTuit.id} has been deleted`);
-    } else {
-      const error = new Error("That tuit does not exist");
-      error.code = 404;
-      next(error);
-    }
   } catch (error) {
     error.status = 400;
     error.message = "Bad Request";
-    next(error);
+    return next(error);
   }
 };
 

@@ -85,7 +85,7 @@ describe("Given a newTuit controller", () => {
 
 describe("Given a deleteTuit controller", () => {
   describe("When it receives a request with an id 1", () => {
-    test.only("Then it should call the Tuit.findByIdAndDelete with a 1", async () => {
+    test("Then it should call the Tuit.findByIdAndDelete with a 1", async () => {
       const id = 1;
       const req = {
         params: {
@@ -100,6 +100,26 @@ describe("Given a deleteTuit controller", () => {
 
       await deleteTuit(req, res, next);
       expect(Tuit.findByIdAndDelete).toHaveBeenCalledWith(id);
+    });
+  });
+
+  describe("When it receives an invalid id", () => {
+    test("Then it should call next with an error with 404", async () => {
+      const error = {};
+      Tuit.findByIdAndDelete = jest.fn().mockRejectedValue(error);
+      const req = {
+        params: {
+          id: 567,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+
+      await deleteTuit(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+      expect(error).toHaveProperty("status");
+      expect(error.status).toBe(400);
     });
   });
 });
