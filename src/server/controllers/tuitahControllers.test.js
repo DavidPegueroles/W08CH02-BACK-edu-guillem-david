@@ -61,4 +61,24 @@ describe("Given a newTuit controller", () => {
       expect(res.json).toHaveBeenCalledWith(tuitToCreate);
     });
   });
+
+  describe("When it receives an invalid tuitToCreate as body in req", () => {
+    test("Then it should call next with an error code 400 an a message Ìnvalid tuit`", async () => {
+      const tuitToCreate = {
+        text: "",
+      };
+
+      const req = {
+        body: tuitToCreate,
+      };
+
+      const next = jest.fn();
+
+      Tuit.create = jest.fn().mockRejectedValue();
+      await newTuit(req, null, next);
+
+      expect(Tuit.create).toHaveBeenCalled();
+      expect(next).toHaveBeenCalled();
+    });
+  });
 });
