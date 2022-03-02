@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const { default: mongoose } = require("mongoose");
 const request = require("supertest");
 const { app } = require("..");
 const connectDB = require("../../database");
@@ -14,6 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
+  mongoose.connection.close();
   mongoServer.stop();
 });
 
