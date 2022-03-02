@@ -8,7 +8,7 @@ const TuitSchema = new Schema({
     max: 200,
   },
   date: {
-    timestamp: true,
+    type: Date,
     default: Date.now(),
   },
   likes: {
