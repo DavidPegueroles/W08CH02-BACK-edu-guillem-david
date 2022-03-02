@@ -1,0 +1,5 @@
+"/" get, llista de tuits
+"/new" post, nou post --> formulari
+"/like" patch, modifica propietat like
+"/delete" delete, borra un missatge
+"/:id" get, mostra tuit en detall
