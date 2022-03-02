@@ -26,7 +26,7 @@ const deleteTuit = async (req, res, next) => {
   } catch (error) {
     error.status = 400;
     error.message = "Bad Request";
-    return next(error);
+    next(error);
   }
 };
 
