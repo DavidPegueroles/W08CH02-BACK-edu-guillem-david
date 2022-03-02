@@ -85,7 +85,7 @@ describe("Given a newTuit controller", () => {
 
 describe("Given a deleteTuit controller", () => {
   describe("When it receives a request with an id 1", () => {
-    test("Then it should call the Tuit.findByIdAndDelete with a 1", async () => {
+    test.only("Then it should call the Tuit.findByIdAndDelete with a 1", async () => {
       const id = 1;
       const req = {
         params: {
