@@ -5,4 +5,14 @@ const showTuits = async (req, res) => {
   res.json({ tuits });
 };
 
-module.exports = { showTuits };
+const newTuit = async (req, res, next) => {
+  try {
+    const toCreateTuit = req.body;
+    const postedTuit = await Tuit.create(toCreateTuit);
+    res.status(201).json(postedTuit);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { showTuits, newTuit };
