@@ -1,5 +1,5 @@
 const Tuit = require("../../database/models/Tuit");
-const { showTuits, newTuit } = require("./tuitahControllers");
+const { showTuits, newTuit, deleteTuit } = require("./tuitahControllers");
 
 jest.mock("../../database/models/Tuit");
 
@@ -79,6 +79,47 @@ describe("Given a newTuit controller", () => {
 
       expect(Tuit.create).toHaveBeenCalled();
       expect(next).toHaveBeenCalled();
+    });
+  });
+});
+
+describe("Given a deleteTuit controller", () => {
+  describe("When it receives a request with an id 1", () => {
+    test("Then it should call the Tuit.findByIdAndDelete with a 1", async () => {
+      const id = 1;
+      const req = {
+        params: {
+          id,
+        },
+      };
+      const res = {
+        json: () => {},
+      };
+      const next = () => {};
+      Tuit.findByIdAndDelete = jest.fn().mockResolvedValue({});
+
+      await deleteTuit(req, res, next);
+      expect(Tuit.findByIdAndDelete).toHaveBeenCalledWith(id);
+    });
+  });
+
+  describe("When it receives an invalid id", () => {
+    test("Then it should call next with an error with 400", async () => {
+      const error = {};
+      Tuit.findByIdAndDelete = jest.fn().mockRejectedValue(error);
+      const req = {
+        params: {
+          id: 567,
+        },
+      };
+      const res = {};
+      const next = jest.fn();
+
+      await deleteTuit(req, res, next);
+
+      expect(next).toHaveBeenCalled();
+      expect(error).toHaveProperty("status");
+      expect(error.status).toBe(400);
     });
   });
 });
