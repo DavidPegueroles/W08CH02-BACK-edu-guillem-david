@@ -1,7 +1,11 @@
 const Tuit = require("../../database/models/Tuit");
-const { showTuits } = require("./tuitahControllers");
+const { showTuits, newTuit } = require("./tuitahControllers");
 
 jest.mock("../../database/models/Tuit");
+
+beforeEach(() => {
+  jest.resetAllMocks();
+});
 
 describe("Given a showTuits controller", () => {
   describe("When it receives a response", () => {
@@ -31,6 +35,50 @@ describe("Given a showTuits controller", () => {
 
       expect(Tuit.find).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith({ tuits });
+    });
+  });
+});
+
+describe("Given a newTuit controller", () => {
+  describe("When it receives tuitToCreate as body in req", () => {
+    test("Then it should call method json with the created tuit and a status 201", async () => {
+      const res = {
+        json: jest.fn(),
+      };
+      const status = jest.fn().mockReturnValue(res);
+      res.status = status;
+      const tuitToCreate = {
+        text: "New tuit",
+      };
+
+      const req = {
+        body: tuitToCreate,
+      };
+      Tuit.create = jest.fn().mockResolvedValue(tuitToCreate);
+      await newTuit(req, res);
+
+      expect(Tuit.create).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalledWith(tuitToCreate);
+    });
+  });
+
+  describe("When it receives an invalid tuitToCreate as body in req", () => {
+    test("Then it should call next with an error code 400 an a message Ìnvalid tuit`", async () => {
+      const tuitToCreate = {
+        text: "",
+      };
+
+      const req = {
+        body: tuitToCreate,
+      };
+
+      const next = jest.fn();
+
+      Tuit.create = jest.fn().mockRejectedValue();
+      await newTuit(req, null, next);
+
+      expect(Tuit.create).toHaveBeenCalled();
+      expect(next).toHaveBeenCalled();
     });
   });
 });
