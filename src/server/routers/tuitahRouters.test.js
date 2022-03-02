@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require("mongoose");
 const request = require("supertest");
 const { app } = require("..");
 const connectDB = require("../../database");
@@ -14,6 +15,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
+  mongoose.connection.close();
   mongoServer.stop();
 });
 
@@ -35,6 +37,19 @@ describe("Given an endpoint /new", () => {
       const { body } = await request(app).post("/new").send(tuit).expect(201);
 
       expect(body).toHaveProperty("text", "New tuit");
+    });
+  });
+});
+
+describe("Given an endpoint /delete", () => {
+  describe("When it receives a DELETE request with an id", () => {
+    test.only("Then it should respond with json with the message `Tuit with id {id} has been deleted`", async () => {
+      const { body } = await request(app)
+        .delete("/delete")
+        .send("1")
+        .expect(200);
+
+      expect(body).toHaveProperty("text", "Tuit with id 1 has been deleted");
     });
   });
 });
