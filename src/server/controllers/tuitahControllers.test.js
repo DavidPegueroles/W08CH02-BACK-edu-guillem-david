@@ -104,7 +104,7 @@ describe("Given a deleteTuit controller", () => {
   });
 
   describe("When it receives an invalid id", () => {
-    test("Then it should call next with an error with 404", async () => {
+    test("Then it should call next with an error with 400", async () => {
       const error = {};
       Tuit.findByIdAndDelete = jest.fn().mockRejectedValue(error);
       const req = {
