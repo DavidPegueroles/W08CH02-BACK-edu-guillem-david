@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --passWithNoTests",
-    "prepare": "husky install"
+    "start": "node src",
+    "start-dev": "nodemon src -q",
+    "prepare": "husky install",
+    "test": "jest",
+    "watchall": "jest --watchAll",
+    "coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
