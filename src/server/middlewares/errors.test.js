@@ -20,7 +20,7 @@ describe("Given a notFoundError middleware", () => {
 });
 
 describe("Given a generalError middleware", () => {
-  describe("When it receives an error and a response", () => {
+  describe("When it receives an error with message and status properties and a response", () => {
     test("Then it should call method json with an error with code 500", () => {
       const mockResponse = () => {
         const res = {};
@@ -29,16 +29,37 @@ describe("Given a generalError middleware", () => {
         return res;
       };
 
-      const error = {
+      const err = {
         message: "error",
         code: 500,
       };
 
+      const expectedError = { error: true, message: err.message };
+
       const mockedRes = mockResponse();
 
-      generalError(error, null, mockedRes, null);
+      generalError(err, null, mockedRes, null);
 
-      expect(mockedRes.json).toHaveBeenCalled();
+      expect(mockedRes.json).toHaveBeenCalledWith(expectedError);
+      expect(mockedRes.status).toHaveBeenCalledWith(err.code);
+    });
+  });
+
+  describe("When it receives an empty error and a response", () => {
+    test("Then it should call methods status & json of res with 500 status code & error: true, message: 'General Error' respectively", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const err = {};
+
+      const errorMessage = { error: true, message: "General fail" };
+      const status = 500;
+
+      await generalError(err, null, res, null);
+
+      expect(res.status).toHaveBeenCalledWith(status);
+      expect(res.json).toHaveBeenCalledWith(errorMessage);
     });
   });
 });
