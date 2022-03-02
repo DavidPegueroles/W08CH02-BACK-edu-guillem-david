@@ -11,7 +11,9 @@ const newTuit = async (req, res, next) => {
     const postedTuit = await Tuit.create(toCreateTuit);
     res.status(201).json(postedTuit);
   } catch (error) {
-    next(error);
+    const newError = new Error("Invalid platform");
+    newError.status = 400;
+    next(newError);
   }
 };
 
