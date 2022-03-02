@@ -26,3 +26,15 @@ describe("Given an endpoint /list", () => {
     });
   });
 });
+
+describe("Given an endpoint /new", () => {
+  describe("When it receives a POST request with a 'tuit'", () => {
+    test("Then it should respond with json with the new tuit and status 201", async () => {
+      const tuit = { text: "New tuit" };
+
+      const { body } = await request(app).post("/new").send(tuit).expect(201);
+
+      expect(body).toHaveProperty("text", "New tuit");
+    });
+  });
+});
