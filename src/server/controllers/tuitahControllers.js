@@ -18,9 +18,9 @@ const newTuit = async (req, res, next) => {
 };
 
 const deleteTuit = async (req, res, next) => {
-  const { idTuit } = req.params;
+  const { id } = req.params;
   try {
-    const deletedTuit = await Tuit.findByIdAndDelete(idTuit);
+    const deletedTuit = await Tuit.findByIdAndDelete(id);
     if (deletedTuit) {
       res.json(`Tuit with id ${deletedTuit.id} has been deleted`);
     } else {
@@ -29,7 +29,7 @@ const deleteTuit = async (req, res, next) => {
       next(error);
     }
   } catch (error) {
-    error.code = 400;
+    error.status = 400;
     error.message = "Bad Request";
     next(error);
   }
