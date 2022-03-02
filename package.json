@@ -7,7 +7,7 @@
     "start": "node src",
     "start-dev": "nodemon src -q",
     "prepare": "husky install",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "watchall": "jest --watchAll",
     "coverage": "jest --coverage"
   },
@@ -31,8 +31,10 @@
     "helmet": "^5.0.2",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
+    "mongodb-memory-server": "^8.4.0",
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }
