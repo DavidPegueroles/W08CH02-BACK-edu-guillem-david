@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.get("/list", showTuits);
 router.post("/new", newTuit);
-router.delete("/delete", deleteTuit);
+router.delete("/delete/:id", deleteTuit);
 
 module.exports = router;
