@@ -36,4 +36,19 @@ const deleteTuit = async (req, res, next) => {
   }
 };
 
-module.exports = { showTuits, showTuit, newTuit, deleteTuit };
+const likeTuit = async (req, res, next) => {
+   const { id } = req.params;
+  try {
+    const tuit = await Tuit.findById(id);
+    tuit.likes += 1;
+    await tuit.save();
+    res.json("You liked that!");
+  } catch (error) {
+    error.message = "An error occurred while liking the tuit";
+    error.status = 400;
+    next(error);
+  }
+};
+};
+
+module.exports = { showTuits, showTuit, newTuit, deleteTuit, likeTuit };
