@@ -5,6 +5,12 @@ const showTuits = async (req, res) => {
   res.json({ tuits });
 };
 
+const showTuit = async (req, res) => {
+  const { id } = req.params;
+  const tuit = await Tuit.findById(id);
+  res.json({ tuit });
+};
+
 const newTuit = async (req, res, next) => {
   try {
     const toCreateTuit = req.body;
@@ -30,4 +36,4 @@ const deleteTuit = async (req, res, next) => {
   }
 };
 
-module.exports = { showTuits, newTuit, deleteTuit };
+module.exports = { showTuits, showTuit, newTuit, deleteTuit };
