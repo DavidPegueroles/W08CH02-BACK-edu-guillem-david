@@ -4,6 +4,7 @@ const { default: mongoose } = require("mongoose");
 const request = require("supertest");
 const { app } = require("..");
 const connectDB = require("../../database");
+const Tuit = require("../../database/models/Tuit");
 
 let mongoServer;
 
@@ -12,6 +13,18 @@ beforeAll(async () => {
   const connectionString = mongoServer.getUri();
 
   await connectDB(connectionString);
+});
+
+beforeEach(async () => {
+  await Tuit.create({
+    text: "test tuit",
+    id: "1",
+    likes: "10",
+  });
+});
+
+afterEach(async () => {
+  await Tuit.deleteMany({});
 });
 
 afterAll(() => {
@@ -37,6 +50,18 @@ describe("Given an endpoint /new", () => {
       const { body } = await request(app).post("/new").send(tuit).expect(201);
 
       expect(body).toHaveProperty("text", "New tuit");
+    });
+  });
+});
+
+describe("Given an endpoint /like/:id", () => {
+  describe("When it receives a PATCH request with an id", () => {
+    test.only("Then it should respond with json 'You liked that!'", async () => {
+      const id = "1";
+
+      const { body } = await request(app).patch(`/like/${id}`);
+
+      expect(body).toHaveProperty("error");
     });
   });
 });
