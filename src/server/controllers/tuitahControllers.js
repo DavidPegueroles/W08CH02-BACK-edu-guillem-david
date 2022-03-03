@@ -37,7 +37,7 @@ const deleteTuit = async (req, res, next) => {
 };
 
 const likeTuit = async (req, res, next) => {
-   const { id } = req.params;
+  const { id } = req.params;
   try {
     const tuit = await Tuit.findById(id);
     tuit.likes += 1;
@@ -48,7 +48,6 @@ const likeTuit = async (req, res, next) => {
     error.status = 400;
     next(error);
   }
-};
 };
 
 module.exports = { showTuits, showTuit, newTuit, deleteTuit, likeTuit };
