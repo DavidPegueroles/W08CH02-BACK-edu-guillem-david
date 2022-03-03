@@ -150,7 +150,7 @@ describe("Given an likeTuit controller", () => {
   });
 
   describe("When it receives a request with an invalid id", () => {
-    test.only("Then it should call next with error status 400", async () => {
+    test("Then it should call next with error status 400", async () => {
       const id = -1;
       const req = {
         params: {
